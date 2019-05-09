@@ -5,25 +5,25 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.junit.Assert.assertEquals;
+import static hive.pokedex.util.Validation.isValid;
+import static junit.framework.TestCase.assertTrue;
+import static org.junit.Assert.assertFalse;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class ValidationTest {
-
   @Test
   public void verifyText_whenOnlyWhiteSpaces_returnFalse() {
-    assertEquals(Validation.isValid("    "), false);
+    assertFalse(isValid("    "));
   }
 
   @Test
   public void verifyText_whenNull_returnFalse() {
-    assertEquals(Validation.isValid(null), false);
+    assertFalse(isValid(null));
   }
 
   @Test
   public void verifyText_whenTextIsRetrieved_returnTrue() {
-    assertEquals(Validation.isValid("text-test"), true);
+    assertTrue(isValid("text-test"));
   }
-
 }

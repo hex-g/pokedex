@@ -1,34 +1,37 @@
 package hive.pokedex.controller;
 
-import hive.entity.user.Person;
-import hive.entity.user.Student;
-import hive.entity.user.User;
+import hive.ishigami.entity.user.Person;
+import hive.ishigami.entity.user.Student;
+import hive.ishigami.entity.user.User;
 import hive.pokedex.exception.EntityAlreadyExistsException;
 import hive.pokedex.exception.EntityNotFoundException;
 import hive.pokedex.exception.NullValueException;
 import hive.pokedex.exception.UsernameAlreadyExistsException;
 import hive.pokedex.repository.StudentRepository;
 import hive.pokedex.repository.UserRepository;
-import hive.pokedex.util.FillNullValues;
-import hive.pokedex.util.Validation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static hive.pokedex.util.FillNullValues.copyProperties;
+import static hive.pokedex.util.Validation.isValid;
+
 @RestController
-@RequestMapping("/admin/student")
+@RequestMapping("/student")
 public class StudentController {
-
   private final String ROLE = "STUDENT";
-
   private final StudentRepository studentRepository;
-
   private final UserRepository userRepository;
+  private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
   @Autowired
-  public StudentController(final StudentRepository studentRepository, final UserRepository userRepository) {
+  public StudentController(
+      final StudentRepository studentRepository,
+      final UserRepository userRepository
+  ) {
     this.studentRepository = studentRepository;
     this.userRepository = userRepository;
   }
@@ -38,14 +41,14 @@ public class StudentController {
       @RequestParam(required = false) final Integer id,
       @RequestParam(required = false) final String name,
       @RequestParam(required = false) final String ra,
-      @RequestParam(required = false) final String username,
-      @RequestParam(required = false) final String password
+      @RequestParam(required = false) final String username
   ) {
+
     final var student = new Student(ra);
     student.setId(id);
 
     final var person = new Person(name);
-    person.setUser(new User(username, password, ROLE));
+    person.setUser(new User(username, null, ROLE));
 
     student.setPerson(person);
 
@@ -70,7 +73,9 @@ public class StudentController {
     final var student = new Student(ra);
     final var person = new Person(name);
 
-    person.setUser(new User(username, password, ROLE));
+    final var user = new User(username, password, ROLE);
+    person.setUser(user);
+
     student.setPerson(person);
 
     if (id != null) {
@@ -80,30 +85,35 @@ public class StudentController {
 
       final var studentPersisted = studentRepository.getOne(id);
 
-      FillNullValues.copyProperties(student, studentPersisted);
+      copyProperties(student, studentPersisted);
 
-      FillNullValues.copyProperties(
+      copyProperties(
           student.getPerson(),
           studentPersisted.getPerson()
       );
 
-      FillNullValues.copyProperties(
+      copyProperties(
           student.getPerson().getUser(),
           studentPersisted.getPerson().getUser()
       );
     }
 
-    if (!Validation.isValid(student.getRa()) ||
-        !Validation.isValid(student.getPerson().getName()) ||
-        !Validation.isValid(student.getPerson().getUser().getUsername()) ||
-        !Validation.isValid(student.getPerson().getUser().getPassword())) {
+    if (!isValid(student.getRa()) ||
+        !isValid(student.getPerson().getName()) ||
+        !isValid(user.getUsername()) ||
+        !isValid(user.getPassword())) {
       throw new NullValueException();
-    }else if (studentRepository.existsByRa(ra)) {
+    }
+
+    if (studentRepository.existsByRa(ra)) {
       throw new EntityAlreadyExistsException();
-    }else if (userRepository.existsByUsername(username)) {
+    }
+
+    if (userRepository.existsByUsername(username)) {
       throw new UsernameAlreadyExistsException();
     }
 
+    user.setPassword(encoder.encode(user.getPassword()));
     studentRepository.save(student);
 
     return student;
@@ -111,9 +121,11 @@ public class StudentController {
 
   @DeleteMapping
   public void deleteById(@RequestParam final int id) {
+
     if (!studentRepository.existsById(id)) {
       throw new EntityNotFoundException();
     }
+
     studentRepository.deleteById(id);
   }
 }

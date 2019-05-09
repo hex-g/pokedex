@@ -7,11 +7,9 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 
 @SpringBootApplication
 @EnableEurekaClient
-@EntityScan(basePackages = {"hive.entity"} )
+@EntityScan(basePackages = {"hive.ishigami.entity.user"})
 public class PokedexApplication {
-
-    public static void main(String[] args) {
-        SpringApplication.run(PokedexApplication.class, args);
-    }
-
+  public static void main(String[] args) {
+    SpringApplication.run(PokedexApplication.class, args);
+  }
 }
