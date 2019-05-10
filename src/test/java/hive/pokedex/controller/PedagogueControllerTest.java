@@ -42,14 +42,14 @@ public class PedagogueControllerTest {
   private UserRepository userRepository;
   @Mock
   private BCryptPasswordEncoder encoder;
-
   private MockMvc mockMvc;
 
   @Before
   public void setup() {
     MockitoAnnotations.initMocks(this);
 
-    final var pedagogueController = new PedagogueController(pedagogueRepository, userRepository, encoder);
+    final var pedagogueController =
+        new PedagogueController(pedagogueRepository, userRepository, encoder);
 
     mockMvc = MockMvcBuilders.standaloneSetup(pedagogueController).build();
   }

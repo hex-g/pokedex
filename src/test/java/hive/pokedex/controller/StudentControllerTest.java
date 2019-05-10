@@ -42,7 +42,6 @@ public class StudentControllerTest {
   private UserRepository userRepository;
   @Mock
   private BCryptPasswordEncoder encoder;
-
   private MockMvc mockMvc;
 
   @Before

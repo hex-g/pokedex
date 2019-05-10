@@ -37,7 +37,6 @@ public class UserControllerTest {
   private UserRepository userRepository;
   @Mock
   private BCryptPasswordEncoder encoder;
-
   private MockMvc mockMvc;
 
   @Before
