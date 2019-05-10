@@ -11,6 +11,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Example;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -34,13 +35,16 @@ public class UserControllerTest {
   private final String URL = "/user";
   @Mock
   private UserRepository userRepository;
+  @Mock
+  private BCryptPasswordEncoder encoder;
+
   private MockMvc mockMvc;
 
   @Before
   public void setup() {
     MockitoAnnotations.initMocks(this);
 
-    final var userController = new UserController(userRepository);
+    final var userController = new UserController(userRepository, encoder);
 
     mockMvc = MockMvcBuilders.standaloneSetup(userController).build();
   }

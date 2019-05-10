@@ -20,11 +20,12 @@ import static hive.pokedex.util.Validation.isValid;
 public class UserController {
   private final String ROLE = "ADMIN";
   private final UserRepository userRepository;
-  private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+  private final BCryptPasswordEncoder encoder;
 
   @Autowired
-  public UserController(final UserRepository userRepository) {
+  public UserController(final UserRepository userRepository, final BCryptPasswordEncoder encoder) {
     this.userRepository = userRepository;
+    this.encoder = encoder;
   }
 
   @GetMapping

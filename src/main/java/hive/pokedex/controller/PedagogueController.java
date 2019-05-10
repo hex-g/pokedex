@@ -25,15 +25,17 @@ public class PedagogueController {
   private final String ROLE = "PEDAGOGUE";
   private final PedagogueRepository pedagogueRepository;
   private final UserRepository userRepository;
-  private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+  private final BCryptPasswordEncoder encoder;
 
   @Autowired
   public PedagogueController(
       final PedagogueRepository pedagogueRepository,
-      final UserRepository userRepository
+      final UserRepository userRepository,
+      final BCryptPasswordEncoder encoder
   ) {
     this.pedagogueRepository = pedagogueRepository;
     this.userRepository = userRepository;
+    this.encoder = encoder;
   }
 
   @GetMapping
