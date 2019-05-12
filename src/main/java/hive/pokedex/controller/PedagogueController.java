@@ -122,7 +122,7 @@ public class PedagogueController {
   }
 
   @DeleteMapping
-  public void deleteById(@RequestParam final int id) {
+  public void deleteById(@RequestParam final Integer id) {
 
     if (!pedagogueRepository.existsById(id)) {
       throw new EntityNotFoundException();
