@@ -82,7 +82,7 @@ public class UserController {
   }
 
   @DeleteMapping
-  public void deleteById(@RequestParam final int id) {
+  public void deleteById(@RequestParam final Integer id) {
     if (!userRepository.existsById(id)) {
       throw new EntityNotFoundException();
     }
