@@ -90,13 +90,13 @@ public class PedagogueController {
       copyProperties(pedagoguePersisted, pedagogue);
 
       copyProperties(
-              pedagoguePersisted.getPerson(),
+          pedagoguePersisted.getPerson(),
           pedagogue.getPerson()
       );
 
       copyProperties(
-              pedagoguePersisted.getPerson().getUser(),
-              pedagogue.getPerson().getUser()
+          pedagoguePersisted.getPerson().getUser(),
+          pedagogue.getPerson().getUser()
       );
     }
 

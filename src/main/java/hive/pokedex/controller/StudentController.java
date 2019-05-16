@@ -90,12 +90,12 @@ public class StudentController {
       copyProperties(studentPersisted, student);
 
       copyProperties(
-              studentPersisted.getPerson(),
+          studentPersisted.getPerson(),
           student.getPerson()
       );
 
       copyProperties(
-              studentPersisted.getPerson().getUser(),
+          studentPersisted.getPerson().getUser(),
           student.getPerson().getUser()
       );
     }
