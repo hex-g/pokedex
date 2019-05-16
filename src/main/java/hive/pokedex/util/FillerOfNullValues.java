@@ -7,13 +7,13 @@ import java.beans.PropertyDescriptor;
 import java.util.HashSet;
 import java.util.Set;
 
-public final class FillNullValues {
-  public static void copyProperties(final Object destiny, final Object origin) {
-    BeanUtils.copyProperties(origin, destiny, getNotNullAttributes(destiny));
+public final class FillerOfNullValues {
+  public static void copyProperties(final Object source, final Object destiny) {
+    BeanUtils.copyProperties(source, destiny, getNotNullAttributes(destiny));
   }
 
-  private static String[] getNotNullAttributes(Object dest) {
-    final var source = new BeanWrapperImpl(dest);
+  private static String[] getNotNullAttributes(Object destiny) {
+    final var source = new BeanWrapperImpl(destiny);
     final PropertyDescriptor[] attributes = source.getPropertyDescriptors();
 
     final Set<String> emptyNames = new HashSet();

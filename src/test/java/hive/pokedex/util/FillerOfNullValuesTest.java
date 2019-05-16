@@ -8,12 +8,12 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static hive.pokedex.util.FillNullValues.copyProperties;
+import static hive.pokedex.util.FillerOfNullValues.copyProperties;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class FillNullValuesTest {
+public class FillerOfNullValuesTest {
   private final String ROLE = "PEDAGOGUE";
 
   @Test
