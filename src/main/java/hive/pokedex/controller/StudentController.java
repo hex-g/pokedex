@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static hive.pokedex.util.FillNullValues.copyProperties;
+import static hive.pokedex.util.FillerOfNullValues.copyProperties;
 import static hive.pokedex.util.Validation.isValid;
 
 @RestController
@@ -87,16 +87,16 @@ public class StudentController {
 
       final var studentPersisted = studentRepository.getOne(id);
 
-      copyProperties(student, studentPersisted);
+      copyProperties(studentPersisted, student);
 
       copyProperties(
-          student.getPerson(),
-          studentPersisted.getPerson()
+          studentPersisted.getPerson(),
+          student.getPerson()
       );
 
       copyProperties(
-          student.getPerson().getUser(),
-          studentPersisted.getPerson().getUser()
+          studentPersisted.getPerson().getUser(),
+          student.getPerson().getUser()
       );
     }
 

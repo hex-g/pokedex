@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static hive.pokedex.util.FillNullValues.copyProperties;
+import static hive.pokedex.util.FillerOfNullValues.copyProperties;
 import static hive.pokedex.util.Validation.isValid;
 
 @RestController
@@ -63,7 +63,7 @@ public class UserController {
 
       final var userPersisted = userRepository.getOne(id);
 
-      copyProperties(user, userPersisted);
+      copyProperties(userPersisted, user);
     }
 
     if (!isValid(user.getUsername()) ||
