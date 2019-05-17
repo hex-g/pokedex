@@ -132,7 +132,7 @@ public class PedagogueControllerTest {
     mockMvc.perform(
         post(URL)
             .param("name", "")
-            .param("rm", "")
+            .param("rm", "any")
             .param("username", "")
             .param("password", "")
     ).andExpect(status().isNotAcceptable())
@@ -146,7 +146,7 @@ public class PedagogueControllerTest {
         post(URL)
             .param("name", " ")
             .param("rm", " ")
-            .param("username", "  ")
+            .param("username", "  any")
             .param("password", "  ")
     ).andExpect(status().isNotAcceptable())
         .andExpect(status().reason("Null value not allowed"));

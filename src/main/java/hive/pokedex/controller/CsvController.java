@@ -5,7 +5,7 @@ import hive.ishigami.entity.user.Person;
 import hive.ishigami.entity.user.Student;
 import hive.ishigami.entity.user.User;
 import hive.pokedex.exception.EntityAlreadyExistsException;
-import hive.pokedex.exception.FileException;
+import hive.pokedex.exception.EmptyFileException;
 import hive.pokedex.exception.NullValueException;
 import hive.pokedex.exception.UsernameAlreadyExistsException;
 import hive.pokedex.repository.PedagogueRepository;
@@ -49,12 +49,15 @@ public class CsvController {
 
   @PostMapping(path = "/saveAllPedagogues", consumes = "multipart/form-data")
   public void saveAllPedagogues(@RequestParam("file") final MultipartFile file) throws IOException {
-
-    if (file.isEmpty()) {
-      throw new FileException();
+    if (file == null) {
+      throw new EmptyFileException();
     }
 
     try (final var br = new BufferedReader(new StringReader(new String(file.getBytes())))) {
+      if(br.readLine().trim().isBlank()){
+        throw new EmptyFileException();
+      }
+
       final var list = new ArrayList<Pedagogue>();
 
       for (final String[] row : new CSVParser(br.lines(), ';', '\"').parser().get()) {
@@ -87,7 +90,7 @@ public class CsvController {
   public void saveAllStudents(@RequestParam("file") final MultipartFile file) throws IOException {
 
     if (file.isEmpty()) {
-      throw new FileException();
+      throw new EmptyFileException();
     }
 
     try (final var br = new BufferedReader(new StringReader(new String(file.getBytes())))) {
