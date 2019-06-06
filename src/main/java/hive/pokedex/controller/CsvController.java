@@ -13,10 +13,7 @@ import hive.pokedex.repository.StudentRepository;
 import hive.pokedex.repository.UserRepository;
 import hive.pokedex.util.CSVParser;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.BufferedReader;
@@ -45,6 +42,35 @@ public class CsvController {
     this.pedagogueRepository = pedagogueRepository;
     this.studentRepository = studentRepository;
     this.userRepository = userRepository;
+  }
+
+  @GetMapping("/exportAllPedagogues")
+  public StringBuilder exportAllPedagogues(){
+    final var csv = new StringBuilder();
+
+    for(final var pedagogue : pedagogueRepository.findAll()){
+      csv.append(pedagogue.getPerson().getName()+",");
+      csv.append(pedagogue.getRm()+",");
+      csv.append(pedagogue.getPerson().getUser().getUsername()+",");
+      csv.append(pedagogue.getPerson().getUser().getPassword()+"\n");
+    }
+
+    return csv;
+  }
+
+
+  @GetMapping("/exportAllStudents")
+  public StringBuilder exportAllStudents(){
+    final var csv = new StringBuilder();
+
+    for(final var pedagogue : studentRepository.findAll()){
+      csv.append(pedagogue.getPerson().getName()+",");
+      csv.append(pedagogue.getRa()+",");
+      csv.append(pedagogue.getPerson().getUser().getUsername()+",");
+      csv.append(pedagogue.getPerson().getUser().getPassword()+"\n");
+    }
+
+    return csv;
   }
 
   @PostMapping(value="/saveAllPedagogues", consumes = "multipart/form-data")
