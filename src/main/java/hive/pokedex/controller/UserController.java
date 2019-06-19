@@ -71,7 +71,7 @@ public class UserController {
       throw new NullValueException();
     }
 
-    if (userRepository.existsByUsername(username)) {
+    if (userRepository.existsByUsername(username) && id == null) {
       throw new UsernameAlreadyExistsException();
     }
 

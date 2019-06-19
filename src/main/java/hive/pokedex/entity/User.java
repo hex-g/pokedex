@@ -10,17 +10,13 @@ import javax.persistence.*;
 @Table(name = "tb_user")
 @Check(constraints = "role in ('STUDENT', 'PEDAGOGUE', 'ADMIN')")
 public class User {
-
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
-
   @Column(name = "username", unique = true)
   private String username;
-
   @Column(name = "password")
   private String password;
-
   @Column(name = "role")
   private String role;
 
@@ -33,12 +29,12 @@ public class User {
     this.role = role;
   }
 
-  public void setId(final Integer id) {
-    this.id = id;
-  }
-
   public Integer getId() {
     return id;
+  }
+
+  public void setId(final Integer id) {
+    this.id = id;
   }
 
   public String getUsername() {
@@ -64,5 +60,4 @@ public class User {
   public void setRole(final String role) {
     this.role = role;
   }
-
 }

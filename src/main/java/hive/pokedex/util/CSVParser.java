@@ -7,10 +7,8 @@ public class CSVParser {
   private final ArrayList<ArrayList<String>> currentObject;
   private final ArrayList<char[]> charObject;
   private final StringBuilder currentColumn;
-
   private final char columnSeparator;
   private final char quote;
-
   private ArrayList<String> currentLine;
 
   public CSVParser(final Stream<String> arr, final char columnSeparator, final char quote) {

@@ -41,7 +41,8 @@ public class StudentController {
   @GetMapping
   public List<Student> find(
       @RequestParam(required = false) final Integer id,
-      @RequestParam(required = false) final String name,
+      @RequestParam(required = false) final String firstName,
+      @RequestParam(required = false) final String lastName,
       @RequestParam(required = false) final String ra,
       @RequestParam(required = false) final String username
   ) {
@@ -49,7 +50,7 @@ public class StudentController {
     final var student = new Student(ra);
     student.setId(id);
 
-    final var person = new Person(name);
+    final var person = new Person(firstName, lastName);
     person.setUser(new User(username, null, ROLE));
 
     student.setPerson(person);
@@ -66,14 +67,15 @@ public class StudentController {
   @PostMapping
   public Student save(
       @RequestParam(required = false) final Integer id,
-      @RequestParam(required = false) final String name,
+      @RequestParam(required = false) final String firstName,
+      @RequestParam(required = false) final String lastName,
       @RequestParam(required = false) final String ra,
       @RequestParam(required = false) final String username,
       @RequestParam(required = false) final String password
   ) {
 
     final var student = new Student(ra);
-    final var person = new Person(name);
+    final var person = new Person(firstName, lastName);
 
     final var user = new User(username, password, ROLE);
     person.setUser(user);
@@ -101,17 +103,17 @@ public class StudentController {
     }
 
     if (!isValid(student.getRa()) ||
-        !isValid(student.getPerson().getName()) ||
+        !isValid(student.getPerson().getFirstName()) ||
         !isValid(user.getUsername()) ||
         !isValid(user.getPassword())) {
       throw new NullValueException();
     }
 
-    if (studentRepository.existsByRa(ra)) {
+    if (studentRepository.existsByRa(ra) && id == null) {
       throw new EntityAlreadyExistsException();
     }
 
-    if (userRepository.existsByUsername(username)) {
+    if (userRepository.existsByUsername(username) && id == null) {
       throw new UsernameAlreadyExistsException();
     }
 
