@@ -1,4 +1,4 @@
-package hive.pokedex.configure;
+package hive.pokedex.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

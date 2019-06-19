@@ -8,14 +8,13 @@ import javax.persistence.*;
 @Entity
 @Table(name = "tb_person")
 public class Person {
-
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
-
-  @Column(name = "name")
-  private String name;
-
+  @Column(name = "firstName")
+  private String firstName;
+  @Column(name = "lastName")
+  private String lastName;
   @ManyToOne(cascade = CascadeType.ALL, optional = false)
   @JoinColumn(name = "user_id", unique = true)
   private User user;
@@ -23,16 +22,17 @@ public class Person {
   public Person() {
   }
 
-  public Person(final String name) {
-    this.name = name;
-  }
-
-  public void setId(final Integer id) {
-    this.id = id;
+  public Person(final String firstName, final String lastName) {
+    this.firstName = firstName;
+    this.lastName = lastName;
   }
 
   public Integer getId() {
     return id;
+  }
+
+  public void setId(final Integer id) {
+    this.id = id;
   }
 
   public User getUser() {
@@ -43,12 +43,19 @@ public class Person {
     this.user = user;
   }
 
-  public String getName() {
-    return name;
+  public String getFirstName() {
+    return firstName;
   }
 
-  public void setName(final String name) {
-    this.name = name;
+  public void setFirstName(final String firstName) {
+    this.firstName = firstName;
   }
 
+  public String getLastName() {
+    return lastName;
+  }
+
+  public void setLastName(String lastName) {
+    this.lastName = lastName;
+  }
 }

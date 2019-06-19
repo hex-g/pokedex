@@ -99,7 +99,7 @@ public class StudentControllerTest {
     final var student = new Student("ra");
     student.setId(1);
 
-    final var person = new Person("test-updated");
+    final var person = new Person("test", "updated");
     person.setUser(new User("test", "123", ROLE));
 
     student.setPerson(person);
@@ -109,7 +109,8 @@ public class StudentControllerTest {
     mockMvc.perform(
         post(URL)
             .param("id", "1")
-            .param("name", "name-updated")
+            .param("firstName", "name")
+            .param("lastName", "updated")
             .param("rm", "rm-updated")
             .param("username", "username-updated")
             .param("password", "password-updated")
@@ -130,7 +131,8 @@ public class StudentControllerTest {
 
     mockMvc.perform(
         post(URL)
-            .param("name", "")
+            .param("firstName", "")
+            .param("lastName", "")
             .param("ra", "")
             .param("username", "")
             .param("password", "")
@@ -143,7 +145,8 @@ public class StudentControllerTest {
 
     mockMvc.perform(
         post(URL)
-            .param("name", " ")
+            .param("firstName", " ")
+            .param("lastName", " ")
             .param("ra", " ")
             .param("username", "  ")
             .param("password", "  ")
@@ -157,7 +160,8 @@ public class StudentControllerTest {
 
     mockMvc.perform(
         post(URL)
-            .param("name", "test")
+            .param("firstName", "test-first")
+            .param("lastName", "test-last")
             .param("ra", "ra-test")
             .param("username", "test")
             .param("password", "test")
@@ -171,7 +175,8 @@ public class StudentControllerTest {
 
     mockMvc.perform(
         post(URL)
-            .param("name", "test")
+            .param("firstName", "test-first")
+            .param("lastName", "test-last")
             .param("ra", "ra-test")
             .param("username", "test")
             .param("password", "test")

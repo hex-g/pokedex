@@ -21,7 +21,7 @@ public class FillerOfNullValuesTest {
     final var originPedagogue = new Pedagogue("rm-test-fill");
     originPedagogue.setId(1);
 
-    final var person = new Person("name-test-fill");
+    final var person = new Person("name-test-fill", "elton");
     person.setId(1);
 
     final var user = new User("username-test-fill", "password-test-fill", ROLE);
@@ -34,7 +34,7 @@ public class FillerOfNullValuesTest {
     final var destinyPedagogue = new Pedagogue("rm-test-new");
     destinyPedagogue.setId(1);
 
-    final var destinyPerson = new Person("name-test-fill-new");
+    final var destinyPerson = new Person("name-test-fill-new", "new-elton");
     destinyPerson.setUser(new User(null, "  ", ""));
 
     destinyPedagogue.setPerson(destinyPerson);
@@ -61,7 +61,8 @@ public class FillerOfNullValuesTest {
 
     if (originPedagogue.getRm().equals(destinyPedagogue.getRm()) ||
         !originPedagoguePerson.getId().equals(destinyPedagoguePerson.getId()) ||
-        originPedagoguePerson.getName().equals(destinyPedagoguePerson.getName()) ||
+        originPedagoguePerson.getFirstName().equals(destinyPedagoguePerson.getFirstName()) ||
+        originPedagoguePerson.getLastName().equals(destinyPedagoguePerson.getLastName()) ||
         !originPedagogueUser.getId().equals(destinyPedagogueUser.getId()) ||
         !originPedagogueUser.getUsername().equals(destinyPedagogueUser.getUsername()) ||
         !originPedagogueUser.getPassword().equals(destinyPedagogueUser.getPassword()) ||

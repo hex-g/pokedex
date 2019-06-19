@@ -64,7 +64,7 @@ public class CsvControllerTest {
   public void givenPedagoguesInfoIsProvided_whenPedagogueIsSaved_then200IsReceived() throws Exception {
 
     final var pedagogues =
-        "samuel,rm-01,samuel.gomes,123\nvictor,rm-02,victor.hirumitsu,321";
+        "samuel,levi,rm-01,samuel.gomes,123\nvictor,hirumitsu,rm-02,victor.hirumitsu,321";
 
     multipartFile = new MockMultipartFile(
         "file", "test.csv", "text/csv",
@@ -80,7 +80,7 @@ public class CsvControllerTest {
   @Test
   public void givenNoPedagogueInfoIsProvided_whenPedagogueIsSaved_then406IsReceived() throws Exception {
 
-    final var pedagogue = "name, , ,password";
+    final var pedagogue = "name, , , ,password";
     multipartFile = new MockMultipartFile(
         "file", "test.csv", "text/csv",
         pedagogue.getBytes(StandardCharsets.UTF_8)
@@ -91,14 +91,13 @@ public class CsvControllerTest {
             .file(multipartFile)
     ).andExpect(status().isNotAcceptable())
         .andExpect(status().reason("Null value not allowed"));
-
   }
 
   @Test
   public void givenRmAlreadyExists_whenPedagogueIsSaved_then409IsReceived() throws Exception {
     when(pedagogueRepository.existsByRm("rm-01")).thenReturn(true);
 
-    final var pedagogue = "samuel,rm-01,samuel.gomes,123";
+    final var pedagogue = "samuel,levi,rm-01,samuel.gomes,123";
 
     multipartFile = new MockMultipartFile(
         "file", "test.csv", "text/csv",
@@ -116,7 +115,7 @@ public class CsvControllerTest {
   public void givenUsernameAlreadyExists_whenPedagogueIsSaved_then409IsReceived() throws Exception {
     when(userRepository.existsByUsername("samuel.gomes")).thenReturn(true);
 
-    final var pedagogue = "samuel,rm-01,samuel.gomes,123";
+    final var pedagogue = "samuel,levi,rm-01,samuel.gomes,123";
 
     multipartFile = new MockMultipartFile(
         "file", "test.csv", "text/csv",
@@ -149,7 +148,7 @@ public class CsvControllerTest {
   public void givenStudentInfoIsProvided_whenPedagogueIsSaved_then200IsReceived() throws Exception {
 
     final var student =
-        "samuel,ra-01,samuel.gomes,123\nvictor,ra-02,victor.hirumitsu,321";
+        "samuel,levi,ra-01,samuel.gomes,123\nvictor,hirumitsu,ra-02,victor.hirumitsu,321";
 
     multipartFile = new MockMultipartFile(
         "file", "test.csv", "text/csv",
@@ -165,7 +164,7 @@ public class CsvControllerTest {
   @Test
   public void givenNoStudentInfoIsProvided_whenPedagogueIsSaved_then406IsReceived() throws Exception {
 
-    final var student = "name, , ,password";
+    final var student = "name, , , ,password";
     multipartFile = new MockMultipartFile(
         "file", "test.csv", "text/csv",
         student.getBytes(StandardCharsets.UTF_8)
@@ -176,14 +175,13 @@ public class CsvControllerTest {
             .file(multipartFile)
     ).andExpect(status().isNotAcceptable())
         .andExpect(status().reason("Null value not allowed"));
-
   }
 
   @Test
   public void givenRmAlreadyExists_whenStudentIsSaved_then409IsReceived() throws Exception {
     when(studentRepository.existsByRa("ra-02")).thenReturn(true);
 
-    final var student = "victor,ra-02,victor.hirumitsu,321";
+    final var student = "victor,hirumitsu,ra-02,victor.hirumitsu,321";
 
     multipartFile = new MockMultipartFile(
         "file", "test.csv", "text/csv",
@@ -201,7 +199,7 @@ public class CsvControllerTest {
   public void givenUsernameAlreadyExists_whenStudentIsSaved_then409IsReceived() throws Exception {
     when(userRepository.existsByUsername("victor.hirumitsu")).thenReturn(true);
 
-    final var student = "victor,ra-02,victor.hirumitsu,321";
+    final var student = "victor,hirumitsu,ra-02,victor.hirumitsu,321";
 
     multipartFile = new MockMultipartFile(
         "file", "test.csv", "text/csv",
