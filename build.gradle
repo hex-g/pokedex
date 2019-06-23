@@ -31,6 +31,7 @@ repositories {
 }
 
 dependencies {
+    implementation project(':pandora')
 
     implementation 'javax.xml.bind:jaxb-api:2.3.1'
     implementation 'javax.activation:activation:1.1.1'
