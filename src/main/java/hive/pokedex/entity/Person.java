@@ -1,5 +1,6 @@
 package hive.pokedex.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
@@ -15,8 +16,10 @@ public class Person {
   private String firstName;
   @Column(name = "lastName")
   private String lastName;
+
   @ManyToOne(cascade = CascadeType.ALL, optional = false)
   @JoinColumn(name = "user_id", unique = true)
+  @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
   private User user;
 
   public Person() {
@@ -25,6 +28,16 @@ public class Person {
   public Person(final String firstName, final String lastName) {
     this.firstName = firstName;
     this.lastName = lastName;
+  }
+
+  @Override
+  public String toString() {
+    return "Person{" +
+        "id=" + id +
+        ", firstName='" + firstName + '\'' +
+        ", lastName='" + lastName + '\'' +
+        ", user=" + user +
+        '}';
   }
 
   public Integer getId() {
