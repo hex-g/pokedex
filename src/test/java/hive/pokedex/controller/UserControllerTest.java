@@ -2,7 +2,7 @@ package hive.pokedex.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import hive.ishigami.entity.user.User;
+import hive.pokedex.entity.User;
 import hive.pokedex.repository.UserRepository;
 import org.junit.Before;
 import org.junit.Test;

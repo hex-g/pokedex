@@ -1,8 +1,8 @@
 package hive.pokedex.util;
 
-import hive.ishigami.entity.user.Pedagogue;
-import hive.ishigami.entity.user.Person;
-import hive.ishigami.entity.user.User;
+import hive.pokedex.entity.Pedagogue;
+import hive.pokedex.entity.Person;
+import hive.pokedex.entity.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,7 +21,7 @@ public class FillerOfNullValuesTest {
     final var originPedagogue = new Pedagogue("rm-test-fill");
     originPedagogue.setId(1);
 
-    final var person = new Person("name-test-fill");
+    final var person = new Person("name-test-fill", "elton");
     person.setId(1);
 
     final var user = new User("username-test-fill", "password-test-fill", ROLE);
@@ -34,21 +34,21 @@ public class FillerOfNullValuesTest {
     final var destinyPedagogue = new Pedagogue("rm-test-new");
     destinyPedagogue.setId(1);
 
-    final var destinyPerson = new Person("name-test-fill-new");
+    final var destinyPerson = new Person("name-test-fill-new", "new-elton");
     destinyPerson.setUser(new User(null, "  ", ""));
 
     destinyPedagogue.setPerson(destinyPerson);
 
-    copyProperties(destinyPedagogue, originPedagogue);
+    copyProperties(originPedagogue, destinyPedagogue);
 
     copyProperties(
-        destinyPedagogue.getPerson(),
-        originPedagogue.getPerson()
+        originPedagogue.getPerson(),
+        destinyPedagogue.getPerson()
     );
 
     copyProperties(
-        destinyPedagogue.getPerson().getUser(),
-        originPedagogue.getPerson().getUser()
+        originPedagogue.getPerson().getUser(),
+        destinyPedagogue.getPerson().getUser()
     );
 
     boolean filledTheGaps = true;
@@ -59,13 +59,14 @@ public class FillerOfNullValuesTest {
     final var destinyPedagogueUser = destinyPedagogue.getPerson().getUser();
     final var originPedagogueUser = originPedagogue.getPerson().getUser();
 
-    if (destinyPedagogue.getRm().equals(originPedagogue) ||
-        !destinyPedagoguePerson.getId().equals(originPedagoguePerson.getId()) ||
-        destinyPedagoguePerson.getName().equals(originPedagoguePerson.getName()) ||
-        !destinyPedagogueUser.getId().equals(originPedagogueUser.getId()) ||
-        !destinyPedagogueUser.getUsername().equals(originPedagogueUser.getUsername()) ||
-        !destinyPedagogueUser.getPassword().equals(originPedagogueUser.getPassword()) ||
-        !destinyPedagogueUser.getRole().equals(originPedagogueUser.getRole())
+    if (originPedagogue.getRm().equals(destinyPedagogue.getRm()) ||
+        !originPedagoguePerson.getId().equals(destinyPedagoguePerson.getId()) ||
+        originPedagoguePerson.getFirstName().equals(destinyPedagoguePerson.getFirstName()) ||
+        originPedagoguePerson.getLastName().equals(destinyPedagoguePerson.getLastName()) ||
+        !originPedagogueUser.getId().equals(destinyPedagogueUser.getId()) ||
+        !originPedagogueUser.getUsername().equals(destinyPedagogueUser.getUsername()) ||
+        !originPedagogueUser.getPassword().equals(destinyPedagogueUser.getPassword()) ||
+        !originPedagogueUser.getRole().equals(destinyPedagogueUser.getRole())
     ) {
       filledTheGaps = false;
     }

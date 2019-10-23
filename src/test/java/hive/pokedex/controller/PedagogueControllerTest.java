@@ -2,9 +2,9 @@ package hive.pokedex.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import hive.ishigami.entity.user.Pedagogue;
-import hive.ishigami.entity.user.Person;
-import hive.ishigami.entity.user.User;
+import hive.pokedex.entity.Pedagogue;
+import hive.pokedex.entity.Person;
+import hive.pokedex.entity.User;
 import hive.pokedex.repository.PedagogueRepository;
 import hive.pokedex.repository.UserRepository;
 import org.junit.Before;
@@ -100,7 +100,7 @@ public class PedagogueControllerTest {
     final var pedagogue = new Pedagogue("rm");
     pedagogue.setId(1);
 
-    final var person = new Person("test-updated");
+    final var person = new Person("test", "updated");
     person.setUser(new User("test", "123", ROLE));
 
     pedagogue.setPerson(person);
@@ -110,7 +110,8 @@ public class PedagogueControllerTest {
     mockMvc.perform(
         post(URL)
             .param("id", "1")
-            .param("name", "name-updated")
+            .param("firstName", "name")
+            .param("lastName", "updated")
             .param("rm", "rm-updated")
             .param("username", "username-updated")
             .param("password", "password-updated")
@@ -131,7 +132,8 @@ public class PedagogueControllerTest {
 
     mockMvc.perform(
         post(URL)
-            .param("name", "")
+            .param("firstName", "")
+            .param("lastName", "")
             .param("rm", "")
             .param("username", "")
             .param("password", "")
@@ -144,7 +146,8 @@ public class PedagogueControllerTest {
 
     mockMvc.perform(
         post(URL)
-            .param("name", " ")
+            .param("firstName", " ")
+            .param("lastName", " ")
             .param("rm", " ")
             .param("username", "  ")
             .param("password", "  ")
@@ -158,7 +161,8 @@ public class PedagogueControllerTest {
 
     mockMvc.perform(
         post(URL)
-            .param("name", "test")
+            .param("firstName", "test-first")
+            .param("lastName", "test-last")
             .param("rm", "rm-test")
             .param("username", "test")
             .param("password", "test")
@@ -172,7 +176,8 @@ public class PedagogueControllerTest {
 
     mockMvc.perform(
         post(URL)
-            .param("name", "test")
+            .param("firstName", "test-first")
+            .param("lastName", "test-last")
             .param("rm", "rm-test")
             .param("username", "test")
             .param("password", "test")

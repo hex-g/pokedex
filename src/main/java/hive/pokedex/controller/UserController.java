@@ -1,6 +1,6 @@
 package hive.pokedex.controller;
 
-import hive.ishigami.entity.user.User;
+import hive.pokedex.entity.User;
 import hive.pokedex.exception.EntityNotFoundException;
 import hive.pokedex.exception.NullValueException;
 import hive.pokedex.exception.UsernameAlreadyExistsException;
@@ -71,7 +71,7 @@ public class UserController {
       throw new NullValueException();
     }
 
-    if (userRepository.existsByUsername(username)) {
+    if (userRepository.existsByUsername(username) && id == null) {
       throw new UsernameAlreadyExistsException();
     }
 

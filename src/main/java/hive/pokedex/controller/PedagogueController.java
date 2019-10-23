@@ -1,8 +1,8 @@
 package hive.pokedex.controller;
 
-import hive.ishigami.entity.user.Pedagogue;
-import hive.ishigami.entity.user.Person;
-import hive.ishigami.entity.user.User;
+import hive.pokedex.entity.Pedagogue;
+import hive.pokedex.entity.Person;
+import hive.pokedex.entity.User;
 import hive.pokedex.exception.EntityAlreadyExistsException;
 import hive.pokedex.exception.EntityNotFoundException;
 import hive.pokedex.exception.NullValueException;
@@ -41,7 +41,8 @@ public class PedagogueController {
   @GetMapping
   public List<Pedagogue> find(
       @RequestParam(required = false) final Integer id,
-      @RequestParam(required = false) final String name,
+      @RequestParam(required = false) final String firstName,
+      @RequestParam(required = false) final String lastName,
       @RequestParam(required = false) final String rm,
       @RequestParam(required = false) final String username
   ) {
@@ -49,7 +50,7 @@ public class PedagogueController {
     final var pedagogue = new Pedagogue(rm);
     pedagogue.setId(id);
 
-    final var person = new Person(name);
+    final var person = new Person(firstName, lastName);
     person.setUser(new User(username, null, ROLE));
 
     pedagogue.setPerson(person);
@@ -66,14 +67,15 @@ public class PedagogueController {
   @PostMapping
   public Pedagogue save(
       @RequestParam(required = false) final Integer id,
-      @RequestParam(required = false) final String name,
+      @RequestParam(required = false) final String firstName,
+      @RequestParam(required = false) final String lastName,
       @RequestParam(required = false) final String rm,
       @RequestParam(required = false) final String username,
       @RequestParam(required = false) final String password
   ) {
 
     final var pedagogue = new Pedagogue(rm);
-    final var person = new Person(name);
+    final var person = new Person(firstName, lastName);
 
     final var user = new User(username, password, ROLE);
     person.setUser(user);
@@ -101,17 +103,17 @@ public class PedagogueController {
     }
 
     if (!isValid(pedagogue.getRm()) ||
-        !isValid(pedagogue.getPerson().getName()) ||
+        !isValid(pedagogue.getPerson().getFirstName()) ||
         !isValid(user.getUsername()) ||
         !isValid(user.getPassword())) {
       throw new NullValueException();
     }
 
-    if (pedagogueRepository.existsByRm(rm)) {
+    if (pedagogueRepository.existsByRm(rm) && id == null) {
       throw new EntityAlreadyExistsException();
     }
 
-    if (userRepository.existsByUsername(username)) {
+    if (userRepository.existsByUsername(username) && id == null) {
       throw new UsernameAlreadyExistsException();
     }
 
